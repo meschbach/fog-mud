@@ -1,0 +1,17 @@
+{
+  "name": "fog-mud-client",
+  "version": "1.0.0",
+  "description": "Client for the Fog Mud storage system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mark Eschbach <meschbach@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bunyan": "1.8.12",
+    "request": "2.85.0",
+    "request-promise-native": "1.0.5",
+    "yargs": "11.0.0"
+  }
+}
