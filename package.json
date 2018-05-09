@@ -4,7 +4,7 @@
   "description": "Client for the Fog Mud storage system",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha tests/system"
   },
   "repository": "https://github.com/meschbach/fog-mud",
   "author": "Mark Eschbach <meschbach@gmail.com>",
@@ -16,6 +16,7 @@
     "yargs": "11.0.0"
   },
   "devDependencies": {
-    "mocha": "5.1.1"
+    "mocha": "5.1.1",
+    "fog-mud-service": "https://github.com/meschbach/fog-mud-service.git"
   }
 }
