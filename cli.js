@@ -7,6 +7,22 @@ function clientFromArgs( logger, argv ){
 	return new MudHTTPClient( argv.service, logger );
 }
 
+//TODO: See about merging with junk-drawer:main
+function runCommand( target ){
+	return function (args) {
+		target(args).then( () => {}, (problem) => {
+			console.error("Fatal error", problem);
+		})
+	}
+}
+
+async function listContainer( args ){
+	const container = args.container;
+	const client = clientFromArgs(logger, args);
+	const items = await client.list( container, "" );
+	console.log( items );
+}
+
 const logger = bunyan.createLogger({name: "mud-client"});
 const result = yargs
 	.env('MUD')
@@ -38,5 +54,9 @@ const result = yargs
 		const client = clientFromArgs(logger, argv);
 		client.store_value(container, key, value)
 	})
+	.command("list [container]", "Lists the available nodes within the container", (yargs) => {
+		yargs
+			.positional("container",{required: true, description: "The container to list"})
+	}, runCommand( listContainer ))
 	.demandCommand()
 	.argv;
