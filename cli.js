@@ -11,7 +11,7 @@ const {MudHTTPClient} = require('./index');
 async function clientFromArgs( logger, argv ){
 	const agent = new MudHTTPClient( argv.service, logger );
 	if( argv["jwt"] ){
-		const token = await fs_readFile(argv.jwt);
+		const token = (await fs_readFile(argv.jwt,"utf-8")).trim();
 		agent.attachJWT( token );
 	}
 	return agent;
