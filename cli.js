@@ -54,8 +54,22 @@ async function putObjectFromValue( argv ) {
 	await client.store_value(container, key, value);
 }
 
+async function deleteObject( argv ){
+	const container = argv.container;
+	const key = argv.key;
+
+	const client = await clientFromArgs(logger, argv);
+	const result = await client.delete( container, key );
+	console.log(result);
+}
+
 async function listContainer( args ){
 	const container = args.container;
+	if( !container ){
+		console.error("Container name is required");
+		return;
+	}
+
 	const client = await clientFromArgs(logger, args);
 	const items = await client.list( container, "" );
 	console.log( items );
@@ -91,6 +105,11 @@ const result = yargs
 			.positional("key",{required: true, description: "key name to be retrieved from"})
 			.positional("value",{required: true, description: "Value to be placed there"})
 	}, runCommand( putObjectFromValue ))
+	.command("delete [container] [key]", "Deletes the given key", (yargs) => {
+		yargs
+			.positional("container",{required: true, description: "The container to be operated on"})
+			.positional("key",{required: true, description: "key name to be delete"})
+	}, runCommand( deleteObject ))
 	.command("list [container]", "Lists the available nodes within the container", (yargs) => {
 		yargs
 			.positional("container",{required: true, description: "The container to list"})
