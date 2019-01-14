@@ -61,6 +61,12 @@ async function listContainer( args ){
 	console.log( items );
 }
 
+async function listContainers( args ){
+	const client = await clientFromArgs(logger, args);
+	const items = await client.listContainers();
+	console.log( items );
+}
+
 const jwt = require("jsonwebtoken");
 async function signJWT( args ) {
 	const key = await fs_readFile( args.key );
@@ -94,5 +100,8 @@ const result = yargs
 			.positional("key", { required:true, description: "File name of the key to sign with" })
 			.positional("claims", {required:true, description: "JSON file with the claims to be signed"})
 	}, runCommand( signJWT ))
+	.command( "list-containers", "List the containers", (yargs) => {
+
+	}, runCommand( listContainers ))
 	.demandCommand()
 	.argv;
