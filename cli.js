@@ -7,6 +7,7 @@ const yargs = require('yargs');
 const bunyan = require("bunyan");
 
 const {MudHTTPClient} = require('./index');
+const {Validator} = require("junk-bucket/validation");
 
 async function clientFromArgs( logger, argv ){
 	const agent = new MudHTTPClient( argv.service, logger );
@@ -48,7 +49,7 @@ async function putObjectFromValue( argv ) {
 	const container = argv.container;
 	const key = argv.key;
 	const value = argv.value;
-	console.debug( "Put ", container, key );
+	console.debug( "Put ", container, key, value );
 
 	const client = await clientFromArgs(logger, argv);
 	await client.store_value(container, key, value);
@@ -94,12 +95,12 @@ const result = yargs
 	.env('MUD')
 	.option('service', {default: "http://localhost:9977"})
 	.option("jwt", {description: "File name of the JSON web token to be used"})
-	.command("get [container] [key]", "Retrieves the value of the given key", (yargs) => {
+	.command("get <container> <key>", "Retrieves the value of the given key", (yargs) => {
 		yargs
 			.positional("container",{required: true, description: "The container to be retrieved from"})
 			.positional("key",{required: true, description: "key name to be retrieved from"})
 	}, runCommand( getObjectStreamOut ))
-	.command("put [container] [key] [value]", "Puts the contents of the given key", (yargs) => {
+	.command("put <container> <key> <value>", "Puts the contents of the given key", (yargs) => {
 		yargs
 			.positional("container",{required: true, description: "The container to be retrieved from"})
 			.positional("key",{required: true, description: "key name to be retrieved from"})
